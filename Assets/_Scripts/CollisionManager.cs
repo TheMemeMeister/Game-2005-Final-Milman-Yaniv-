@@ -175,23 +175,21 @@ public class CollisionManager : MonoBehaviour
                 {
                     a.gameObject.GetComponent<RigidBody3D>().Stop();
                     a.isGrounded = true;
+                    b.isGrounded = true;
+                    b.gameObject.GetComponent<RigidBody3D>().Stop();
                 }
-                if (a.name == "Player" && b.gameObject.GetComponent<RigidBody3D>().bodyType == BodyType.STATIC)
+              else  if (a.name == "Player" && b.gameObject.GetComponent<RigidBody3D>().bodyType == BodyType.DYNAMIC)
                 {
-                    if ((contactB.face == Vector3.forward) || (contactB.face == Vector3.back))
-                    {
-                        b.transform.position = new Vector3(penetration * 10 * Time.deltaTime, 0, 0);
-                        a.contacts.Remove(a.contacts.Find(x => x.cube.gameObject.name.Equals(b.gameObject.name)));
-                        a.isColliding = false;
-                    }
-                    else if ((contactB.face == Vector3.right) || ((contactB.face == Vector3.left)))
-                    { 
-         
-                        b.transform.position = new Vector3(0, penetration * 10 * Time.deltaTime, 0);
-                        a.contacts.Remove(a.contacts.Find(x => x.cube.gameObject.name.Equals(b.gameObject.name)));
-                        a.isColliding = false;
-                    }
                    
+                
+                     if (contactB.face == Vector3.forward || contactB.face == Vector3.back || contactB.face == Vector3.right || contactB.face == Vector3.left)
+                    {
+
+                        b.transform.position += (contactB.face * contactB.penetration) + Vector3.up;
+                        //b.gameObject.GetComponent<RigidBody3D>().velocity += (contactB.face * contactB.penetration) + Vector3.up;
+
+                    }
+                
 
 
 
